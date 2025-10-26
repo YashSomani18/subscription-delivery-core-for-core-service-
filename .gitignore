@@ -58,3 +58,12 @@ logs/
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Spring Boot environment configs
+src/main/resources/application-*.yml
+
+# Security / key files
+*.jks
+*.keystore
+*.pem
+

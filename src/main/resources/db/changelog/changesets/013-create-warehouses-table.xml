@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="013-create-warehouses-table" author="developer">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="warehouses"/>
+            </not>
+            <tableExists tableName="zones"/>
+        </preConditions>
+        
+        <createTable tableName="warehouses">
+            <column name="warehouse_id" type="uuid" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="warehouse_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address" type="varchar(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="city" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="state" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="postal_code" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="latitude" type="decimal(10,8)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="longitude" type="decimal(11,8)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(20)" defaultValue="ACTIVE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_on" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="modified_on" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="true"/>
+            </column>
+            <column name="modified_by" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <addForeignKeyConstraint
+                baseTableName="warehouses"
+                baseColumnNames="zone_id"
+                constraintName="fk_warehouses_zone_id"
+                referencedTableName="zones"
+                referencedColumnNames="zone_id"/>        <rollback>            <dropForeignKeyConstraint baseTableName="warehouses" constraintName="fk_warehouses_zone_id"/>
+            <dropTable tableName="warehouses"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

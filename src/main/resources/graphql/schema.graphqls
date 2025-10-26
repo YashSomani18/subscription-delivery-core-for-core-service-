@@ -1,0 +1,83 @@
+type Query {
+    # Subscription queries
+    subscriptions: [Subscription]
+    subscription(id: ID!): Subscription
+    subscriptionsByUserId(userId: ID!): [Subscription]
+    
+    # User queries
+    users: [User]
+    user(id: ID!): User
+}
+
+type Mutation {
+    # Subscription mutations
+    createSubscription(input: CreateSubscriptionInput!): Subscription
+    updateSubscription(id: ID!, input: UpdateSubscriptionInput!): Subscription
+    cancelSubscription(id: ID!): Boolean
+    
+    # User mutations
+    createUser(input: CreateUserInput!): User
+    updateUser(id: ID!, input: UpdateUserInput!): User
+}
+
+type Subscription {
+    id: ID!
+    userId: ID!
+    planId: ID!
+    status: SubscriptionStatus!
+    startDate: String!
+    endDate: String
+    createdAt: String!
+    updatedAt: String!
+    user: User
+    plan: Plan
+}
+
+type User {
+    id: ID!
+    email: String!
+    firstName: String!
+    lastName: String!
+    createdAt: String!
+    updatedAt: String!
+    subscriptions: [Subscription]
+}
+
+type Plan {
+    id: ID!
+    name: String!
+    description: String
+    price: Float!
+    duration: Int!
+    features: [String]
+}
+
+enum SubscriptionStatus {
+    ACTIVE
+    CANCELLED
+    EXPIRED
+    SUSPENDED
+}
+
+input CreateSubscriptionInput {
+    userId: ID!
+    planId: ID!
+    startDate: String
+}
+
+input UpdateSubscriptionInput {
+    status: SubscriptionStatus
+    endDate: String
+}
+
+input CreateUserInput {
+    email: String!
+    firstName: String!
+    lastName: String!
+}
+
+input UpdateUserInput {
+    email: String
+    firstName: String
+    lastName: String
+}

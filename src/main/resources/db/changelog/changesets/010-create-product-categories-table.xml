@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="010-create-product-categories-table" author="developer">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="product_categories"/>
+            </not>
+            <tableExists tableName="products"/>
+        </preConditions>
+        
+        <createTable tableName="product_categories">
+            <column name="category_id" type="uuid" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="product_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="discount_type_id" type="uuid">
+                <constraints nullable="true"/>
+            </column>
+            <column name="category" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="gst_slab" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(20)" defaultValue="ACTIVE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_on" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="modified_on" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="true"/>
+            </column>
+            <column name="modified_by" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <addForeignKeyConstraint
+                baseTableName="product_categories"
+                baseColumnNames="product_id"
+                constraintName="fk_product_categories_product_id"
+                referencedTableName="products"
+                referencedColumnNames="product_id"/>        <rollback>            <dropForeignKeyConstraint baseTableName="product_categories" constraintName="fk_product_categories_product_id"/>
+            <dropTable tableName="product_categories"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

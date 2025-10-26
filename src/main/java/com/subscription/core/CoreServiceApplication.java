@@ -1,4 +1,4 @@
-package subscription_delivery_project.com.example.core;
+package com.subscription.core;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

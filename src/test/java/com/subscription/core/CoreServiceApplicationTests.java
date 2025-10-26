@@ -1,4 +1,4 @@
-package subscription_delivery_project.com.example.core;
+package com.subscription.core;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

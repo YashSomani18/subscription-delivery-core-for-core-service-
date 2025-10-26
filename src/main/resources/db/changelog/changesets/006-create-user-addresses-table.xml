@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="006-create-user-addresses-table" author="developer">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user_addresses"/>
+            </not>
+            <tableExists tableName="users"/>
+        </preConditions>
+        
+        <createTable tableName="user_addresses">
+            <column name="user_address_id" type="uuid" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address_line1" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address_line2" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="city" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="state" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="postal_code" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="country" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="latitude" type="decimal(10,8)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="longitude" type="decimal(11,8)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="microdata" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="zone_id" type="uuid">
+                <constraints nullable="true"/>
+            </column>
+            <column name="status" type="varchar(20)" defaultValue="ACTIVE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="no_of_orders_placed" type="integer" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_on" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="modified_on" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="true"/>
+            </column>
+            <column name="modified_by" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <addForeignKeyConstraint
+                baseTableName="user_addresses"
+                baseColumnNames="user_id"
+                constraintName="fk_user_addresses_user_id"
+                referencedTableName="users"
+                referencedColumnNames="id"/>
+        
+        <addForeignKeyConstraint
+                baseTableName="user_addresses"
+                baseColumnNames="zone_id"
+                constraintName="fk_user_addresses_zone_id"
+                referencedTableName="zones"
+                referencedColumnNames="zone_id"/>        <rollback>            <dropForeignKeyConstraint baseTableName="user_addresses" constraintName="fk_user_addresses_zone_id"/>
+            <dropForeignKeyConstraint baseTableName="user_addresses" constraintName="fk_user_addresses_user_id"/>
+            <dropTable tableName="user_addresses"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
