@@ -7,53 +7,44 @@
 
     <changeSet id="001-create-users-table" author="developer">
         <createTable tableName="users">
-            <column name="id" type="uuid" defaultValueComputed="gen_random_uuid()">
+            <column name="user_id" type="varchar(64)" defaultValueComputed="gen_random_uuid()">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="email" type="varchar(255)">
-                <constraints nullable="false" unique="true"/>
-            </column>
-            <column name="first_name" type="varchar(100)">
+            <column name="user_name" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_name" type="varchar(100)">
+            <column name="password_hash" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(20)">
                 <constraints nullable="false"/>
             </column>
             <column name="phone_number" type="varchar(20)">
                 <constraints nullable="true"/>
             </column>
-            <column name="address" type="text">
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="created_on" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
-            <column name="city" type="varchar(100)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="state" type="varchar(100)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="zip_code" type="varchar(20)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="latitude" type="decimal(10,8)">
+            <column name="created_by" type="varchar(255)">
                 <constraints nullable="true"/>
             </column>
-            <column name="longitude" type="decimal(11,8)">
+            <column name="modified_on" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="true"/>
             </column>
-            <column name="is_active" type="boolean" defaultValueBoolean="true">
-                <constraints nullable="false"/>
-            </column>
-            <column name="preferred_delivery_instructions" type="text">
+            <column name="modified_by" type="varchar(255)">
                 <constraints nullable="true"/>
-            </column>
-            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
-                <constraints nullable="false"/>
             </column>
         </createTable>
+        
+        <rollback>
+            <dropTable tableName="users"/>
+        </rollback>
     </changeSet>
 
 </databaseChangeLog>
-

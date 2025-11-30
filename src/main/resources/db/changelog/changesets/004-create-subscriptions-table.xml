@@ -10,10 +10,10 @@
             <column name="subscription_id" type="varchar(64)" defaultValueComputed="gen_random_uuid()">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="user_id" type="varchar(36)">
+            <column name="user_id" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
-            <column name="slot_id" type="varchar(36)">
+            <column name="slot_id" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
             <column name="product_ids" type="text">
@@ -34,11 +34,11 @@
             <column name="total_amount" type="decimal(10,2)">
                 <constraints nullable="false"/>
             </column>
-            <column name="deliveries_completed" type="integer" defaultValue="0">
-                <constraints nullable="false"/>
+            <column name="deliveries_completed" type="integer">
+                <constraints nullable="true"/>
             </column>
-            <column name="deliveries_failed" type="integer" defaultValue="0">
-                <constraints nullable="false"/>
+            <column name="deliveries_failed" type="integer">
+                <constraints nullable="true"/>
             </column>
             <column name="paused_at" type="timestamp">
                 <constraints nullable="true"/>
@@ -59,6 +59,20 @@
                 <constraints nullable="true"/>
             </column>
         </createTable>
+    </changeSet>
+
+    <changeSet id="004-add-delivery-address-id" author="yashsomani">
+        <comment>Add delivery_address_id column to subscriptions table</comment>
+
+        <addColumn tableName="subscriptions">
+            <column name="delivery_address_id" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <rollback>
+            <dropColumn tableName="subscriptions" columnName="delivery_address_id"/>
+        </rollback>
     </changeSet>
 
 </databaseChangeLog>

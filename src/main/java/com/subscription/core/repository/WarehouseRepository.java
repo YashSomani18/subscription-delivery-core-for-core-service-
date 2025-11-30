@@ -7,12 +7,15 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
-public interface WarehouseRepository extends JpaRepository<Warehouse, UUID> {
+public interface WarehouseRepository extends JpaRepository<Warehouse, String> {
 
-    List<Warehouse> findByZoneId(UUID zoneId);
-    List<Warehouse> findByStatus(WarehouseStatus status);
+    Optional<Warehouse> findByWarehouseCode(String warehouseCode);
+
     Optional<Warehouse> findByWarehouseName(String warehouseName);
+
+    List<Warehouse> findByStatus(WarehouseStatus status);
+
+    List<Warehouse> findByCity(String city);
 }

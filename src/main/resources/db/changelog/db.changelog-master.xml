@@ -5,16 +5,21 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
 
-    <include file="db/changelog/changesets/001-create-users-table.xml" relativeToChangelogFile="true"/>
-    <include file="db/changelog/changesets/004-create-subscriptions-table.xml" relativeToChangelogFile="true"/>
-    <include file="db/changelog/changesets/006-create-user-addresses-table.xml" relativeToChangelogFile="true"/>
-    <include file="db/changelog/changesets/007-create-zones-table.xml" relativeToChangelogFile="true"/>
-    <include file="db/changelog/changesets/008-create-slots-table.xml" relativeToChangelogFile="true"/>
-    <include file="db/changelog/changesets/009-create-products-table.xml" relativeToChangelogFile="true"/>
-    <include file="db/changelog/changesets/010-create-product-categories-table.xml" relativeToChangelogFile="true"/>
-    <include file="db/changelog/changesets/011-create-user-contacts-table.xml" relativeToChangelogFile="true"/>
-    <include file="db/changelog/changesets/012-create-discount-types-table.xml" relativeToChangelogFile="true"/>
-    <include file="db/changelog/changesets/013-create-warehouses-table.xml" relativeToChangelogFile="true"/>
-    <include file="db/changelog/changesets/014-create-delivery-partners-table.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/001-create-users-table.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/004-create-subscriptions-table.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/006-create-user-addresses-table.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/007-create-zones-table.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/008-create-slots-table.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/009-create-products-table.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/010-create-product-categories-table.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/011-create-user-contacts-table.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/012-create-discount-types-table.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/013-create-warehouses-table.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/014-create-delivery-partners-table.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/015-create-business-events-table.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/016-create-refresh-tokens-table.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/017-create-categories-and-update-products.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/018-update-discount-types.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/019-create-warehouse-zones-table.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

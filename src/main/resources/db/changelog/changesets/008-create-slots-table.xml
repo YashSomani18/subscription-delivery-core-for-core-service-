@@ -14,7 +14,7 @@
         </preConditions>
         
         <createTable tableName="slots">
-            <column name="slot_id" type="uuid" defaultValueComputed="gen_random_uuid()">
+            <column name="slot_id" type="varchar(64)" defaultValueComputed="gen_random_uuid()">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="start_time" type="time">
@@ -29,13 +29,13 @@
             <column name="capacity" type="integer">
                 <constraints nullable="false"/>
             </column>
-            <column name="current_bookings" type="integer" defaultValue="0">
+            <column name="current_bookings" type="integer">
                 <constraints nullable="false"/>
             </column>
-            <column name="zone_id" type="uuid">
+            <column name="zone_id" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
-            <column name="status" type="varchar(20)" defaultValue="AVAILABLE">
+            <column name="status" type="varchar(20)">
                 <constraints nullable="false"/>
             </column>
             <column name="created_on" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
@@ -52,15 +52,7 @@
             </column>
         </createTable>
         
-        <addForeignKeyConstraint
-                baseTableName="slots"
-                baseColumnNames="zone_id"
-                constraintName="fk_slots_zone_id"
-                referencedTableName="zones"
-                referencedColumnNames="zone_id"/>
-        
         <rollback>
-            <dropForeignKeyConstraint baseTableName="slots" constraintName="fk_slots_zone_id"/>
             <dropTable tableName="slots"/>
         </rollback>
     </changeSet>

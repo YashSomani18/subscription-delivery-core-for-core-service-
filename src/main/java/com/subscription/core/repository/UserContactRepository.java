@@ -7,13 +7,14 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
-public interface UserContactRepository extends JpaRepository<UserContact, UUID> {
+public interface UserContactRepository extends JpaRepository<UserContact, String> {
 
-    List<UserContact> findByUserId(UUID userId);
+    List<UserContact> findByUserId(String userId);
+    List<UserContact> findByUserAddressId(String userAddressId);
     List<UserContact> findByStatus(ContactStatus status);
     Optional<UserContact> findByPhoneNo(String phoneNo);
     Optional<UserContact> findByEmailId(String emailId);
+    Optional<UserContact> findByUserContactId(String userContactId);
 }

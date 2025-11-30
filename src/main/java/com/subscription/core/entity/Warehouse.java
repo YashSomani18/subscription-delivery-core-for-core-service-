@@ -1,53 +1,58 @@
 package com.subscription.core.entity;
 
 import com.subscription.core.enums.WarehouseStatus;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.FieldDefaults;
 
 import jakarta.persistence.*;
 
-/**
- * Warehouse entity representing storage facilities with location and operational information.
- */
 @Entity
 @Table(name = "warehouses")
-@Data
+@Getter
+@Setter
+@ToString
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Warehouse extends BaseAuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "warehouse_id", length = 64)
-    private String warehouseId;
+    String warehouseId;
 
-    @Column(name = "warehouse_name", nullable = false)
-    private String warehouseName;
+    @Column(name = "warehouse_name", nullable = false, columnDefinition = "varchar(255)")
+    String warehouseName;
 
-    @Column(name = "address", nullable = false)
-    private String address;
+    @Column(name = "warehouse_code", unique = true, nullable = false, columnDefinition = "varchar(255)")
+    String warehouseCode;
 
-    @Column(name = "city", nullable = false)
-    private String city;
+    @Column(name = "address", nullable = false, columnDefinition = "varchar(500)")
+    String address;
 
-    @Column(name = "state", nullable = false)
-    private String state;
+    @Column(name = "city", nullable = false, columnDefinition = "varchar(255)")
+    String city;
 
-    @Column(name = "postal_code", nullable = false)
-    private String postalCode;
+    @Column(name = "state", nullable = false, columnDefinition = "varchar(255)")
+    String state;
+
+    @Column(name = "postal_code", nullable = false, columnDefinition = "varchar(255)")
+    String postalCode;
 
     @Column(name = "latitude", nullable = false)
-    private Double latitude;
+    Double latitude;
 
     @Column(name = "longitude", nullable = false)
-    private Double longitude;
-
-    @Column(name = "zone_id", nullable = false)
-    private String zoneId;
+    Double longitude;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private WarehouseStatus status;
+    WarehouseStatus status;
 }

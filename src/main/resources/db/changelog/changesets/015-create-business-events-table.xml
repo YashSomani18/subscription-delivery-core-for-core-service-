@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="015-create-business-events-table" author="developer">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="business_events"/>
+            </not>
+        </preConditions>
+        
+        <comment>
+            Creates business_events table to store domain events before publishing to Kafka.
+            Uses UUID primary key for distributed system compatibility and event sourcing.
+        </comment>
+        
+        <createTable tableName="business_events">
+            <column name="event_id" type="uuid" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="event_type" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="aggregate_type" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="aggregate_id" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="payload" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="published_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <createIndex indexName="idx_business_events_published_created" tableName="business_events">
+            <column name="published_at"/>
+            <column name="created_at"/>
+        </createIndex>
+        
+        <createIndex indexName="idx_business_events_aggregate" tableName="business_events">
+            <column name="aggregate_type"/>
+            <column name="aggregate_id"/>
+        </createIndex>
+        
+        <rollback>
+            <dropTable tableName="business_events"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
+

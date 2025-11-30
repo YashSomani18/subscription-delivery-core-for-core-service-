@@ -14,13 +14,13 @@
         </preConditions>
         
         <createTable tableName="product_categories">
-            <column name="category_id" type="uuid" defaultValueComputed="gen_random_uuid()">
+            <column name="category_id" type="varchar(64)" defaultValueComputed="gen_random_uuid()">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="product_id" type="uuid">
+            <column name="product_id" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
-            <column name="discount_type_id" type="uuid">
+            <column name="discount_type_id" type="varchar(64)">
                 <constraints nullable="true"/>
             </column>
             <column name="category" type="varchar(100)">
@@ -29,7 +29,7 @@
             <column name="gst_slab" type="varchar(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="status" type="varchar(20)" defaultValue="ACTIVE">
+            <column name="status" type="varchar(20)">
                 <constraints nullable="false"/>
             </column>
             <column name="created_on" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
@@ -46,12 +46,7 @@
             </column>
         </createTable>
         
-        <addForeignKeyConstraint
-                baseTableName="product_categories"
-                baseColumnNames="product_id"
-                constraintName="fk_product_categories_product_id"
-                referencedTableName="products"
-                referencedColumnNames="product_id"/>        <rollback>            <dropForeignKeyConstraint baseTableName="product_categories" constraintName="fk_product_categories_product_id"/>
+        <rollback>
             <dropTable tableName="product_categories"/>
         </rollback>
     </changeSet>

@@ -1,10 +1,14 @@
 package com.subscription.core.entity;
 
 import com.subscription.core.enums.SlotStatus;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.FieldDefaults;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
@@ -15,35 +19,39 @@ import java.time.LocalTime;
  */
 @Entity
 @Table(name = "slots")
-@Data
+@Getter
+@Setter
+@ToString
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Slot extends BaseAuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "slot_id", length = 64)
-    private String slotId;
+    String slotId;
 
     @Column(name = "start_time", nullable = false)
-    private LocalTime startTime;
+    LocalTime startTime;
 
     @Column(name = "end_time", nullable = false)
-    private LocalTime endTime;
+    LocalTime endTime;
 
     @Column(name = "slot_date", nullable = false)
-    private LocalDate slotDate;
+    LocalDate slotDate;
 
     @Column(name = "capacity", nullable = false)
-    private Integer capacity;
+    Integer capacity;
 
     @Column(name = "current_bookings", nullable = false)
-    private Integer currentBookings;
+    Integer currentBookings;
 
-    @Column(name = "zone_id", nullable = false)
-    private String zoneId;
+    @Column(name = "zone_id", nullable = false, columnDefinition = "varchar(255)")
+    String zoneId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private SlotStatus status;
+    SlotStatus status;
 }

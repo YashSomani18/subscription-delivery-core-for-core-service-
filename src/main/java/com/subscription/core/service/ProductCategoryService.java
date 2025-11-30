@@ -4,20 +4,20 @@ import com.subscription.core.dto.ProductCategoryUpsertDTO;
 import com.subscription.core.entity.ProductCategory;
 import com.subscription.core.repository.ProductCategoryRepository;
 import com.subscription.core.util.LambdaUtil;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class ProductCategoryService {
-
+    
     private final ProductCategoryRepository productCategoryRepository;
-
-    public ProductCategoryService(ProductCategoryRepository productCategoryRepository) {
-        this.productCategoryRepository = productCategoryRepository;
-    }
-
+    
     public String upsertProductCategory(ProductCategoryUpsertDTO productCategoryRequest) {
         boolean isUpdate = Optional.ofNullable(productCategoryRequest.getProductId())
             .map(productCategoryRepository::findByProductId)
@@ -43,6 +43,8 @@ public class ProductCategoryService {
 
     private ProductCategory createProductCategory(ProductCategoryUpsertDTO dto) {
         ProductCategory productCategory = new ProductCategory();
+        productCategory.setProductId(dto.getProductId());
+        productCategory.setDiscountTypeId(dto.getDiscountTypeId());
         productCategory.setCategory(dto.getCategory());
         productCategory.setGstSlab(dto.getGstSlab());
         productCategory.setStatus(dto.getStatus());
@@ -50,6 +52,8 @@ public class ProductCategoryService {
     }
 
     private void updateProductCategory(ProductCategory productCategory, ProductCategoryUpsertDTO productCategoryRequest) {
+        LambdaUtil.updateIfNotNull(productCategoryRequest.getProductId(), productCategory::setProductId);
+        LambdaUtil.updateIfNotNull(productCategoryRequest.getDiscountTypeId(), productCategory::setDiscountTypeId);
         LambdaUtil.updateIfNotNull(productCategoryRequest.getCategory(), productCategory::setCategory);
         LambdaUtil.updateIfNotNull(productCategoryRequest.getGstSlab(), productCategory::setGstSlab);
         LambdaUtil.updateIfNotNull(productCategoryRequest.getStatus(), productCategory::setStatus);

@@ -13,7 +13,7 @@
         </preConditions>
         
         <createTable tableName="products">
-            <column name="product_id" type="uuid" defaultValueComputed="gen_random_uuid()">
+            <column name="product_id" type="varchar(64)" defaultValueComputed="gen_random_uuid()">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="product_name" type="varchar(255)">
@@ -31,7 +31,7 @@
             <column name="sku" type="varchar(100)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="status" type="varchar(20)" defaultValue="ACTIVE">
+            <column name="status" type="varchar(20)">
                 <constraints nullable="false"/>
             </column>
             <column name="created_on" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">

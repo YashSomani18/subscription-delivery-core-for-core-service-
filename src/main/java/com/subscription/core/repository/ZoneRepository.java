@@ -7,10 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
-public interface ZoneRepository extends JpaRepository<Zone, UUID> {
+public interface ZoneRepository extends JpaRepository<Zone, String> {
 
     Optional<Zone> findByZoneName(String zoneName);
     List<Zone> findByStatus(ZoneStatus status);

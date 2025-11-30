@@ -33,6 +33,11 @@
 	</properties>
 	<dependencies>
 		<dependency>
+			<groupId>com.subscription</groupId>
+			<artifactId>dto-common</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
@@ -109,6 +114,25 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<!-- Shared JWT Library -->
+		<dependency>
+			<groupId>com.subscription</groupId>
+			<artifactId>shared-jwt-library</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<!-- JWT dependencies are now provided by shared-jwt-library -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.12.3</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.12.3</version>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 

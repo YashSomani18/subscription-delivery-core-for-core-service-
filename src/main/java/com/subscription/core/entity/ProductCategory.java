@@ -2,10 +2,14 @@ package com.subscription.core.entity;
 
 import com.subscription.core.enums.CategoryStatus;
 import com.subscription.core.enums.GstSlab;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.FieldDefaults;
 
 import jakarta.persistence.*;
 
@@ -14,30 +18,34 @@ import jakarta.persistence.*;
  */
 @Entity
 @Table(name = "product_categories")
-@Data
+@Getter
+@Setter
+@ToString
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductCategory extends BaseAuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "category_id", length = 64)
-    private String categoryId;
+    String categoryId;
 
-    @Column(name = "product_id", nullable = false)
-    private String productId;
+    @Column(name = "product_id", nullable = false, columnDefinition = "varchar(255)")
+    String productId;
 
-    @Column(name = "discount_type_id")
-    private String discountTypeId;
+    @Column(name = "discount_type_id", columnDefinition = "varchar(255)")
+    String discountTypeId;
 
-    @Column(name = "category", nullable = false)
-    private String category;
+    @Column(name = "category", nullable = false, columnDefinition = "varchar(255)")
+    String category;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "gst_slab", nullable = false)
-    private GstSlab gstSlab;
+    GstSlab gstSlab;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private CategoryStatus status;
+    CategoryStatus status;
 }

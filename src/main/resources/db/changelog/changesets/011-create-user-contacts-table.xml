@@ -15,13 +15,13 @@
         </preConditions>
         
         <createTable tableName="user_contacts">
-            <column name="user_contact_id" type="uuid" defaultValueComputed="gen_random_uuid()">
+            <column name="user_contact_id" type="varchar(64)" defaultValueComputed="gen_random_uuid()">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="user_address_id" type="uuid">
+            <column name="user_address_id" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
-            <column name="user_id" type="uuid">
+            <column name="user_id" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
             <column name="phone_number" type="varchar(20)">
@@ -30,16 +30,16 @@
             <column name="email_id" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="opt_in_email" type="boolean" defaultValueBoolean="false">
+            <column name="opt_in_email" type="boolean">
                 <constraints nullable="false"/>
             </column>
-            <column name="opt_in_whatsapp" type="boolean" defaultValueBoolean="false">
+            <column name="opt_in_whatsapp" type="boolean">
                 <constraints nullable="false"/>
             </column>
-            <column name="opt_in_sms" type="boolean" defaultValueBoolean="false">
+            <column name="opt_in_sms" type="boolean">
                 <constraints nullable="false"/>
             </column>
-            <column name="status" type="varchar(20)" defaultValue="ACTIVE">
+            <column name="status" type="varchar(20)">
                 <constraints nullable="false"/>
             </column>
             <column name="created_on" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
@@ -56,20 +56,7 @@
             </column>
         </createTable>
         
-        <addForeignKeyConstraint
-                baseTableName="user_contacts"
-                baseColumnNames="user_address_id"
-                constraintName="fk_user_contacts_user_address_id"
-                referencedTableName="user_addresses"
-                referencedColumnNames="user_address_id"/>
-        
-        <addForeignKeyConstraint
-                baseTableName="user_contacts"
-                baseColumnNames="user_id"
-                constraintName="fk_user_contacts_user_id"
-                referencedTableName="users"
-                referencedColumnNames="id"/>        <rollback>            <dropForeignKeyConstraint baseTableName="user_contacts" constraintName="fk_user_contacts_user_id"/>
-            <dropForeignKeyConstraint baseTableName="user_contacts" constraintName="fk_user_contacts_user_address_id"/>
+        <rollback>
             <dropTable tableName="user_contacts"/>
         </rollback>
     </changeSet>

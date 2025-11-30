@@ -3,65 +3,76 @@ package com.subscription.core.entity;
 import com.subscription.core.enums.DeliveryPartnerCurrentStatus;
 import com.subscription.core.enums.EmploymentStatus;
 import com.subscription.core.enums.VehicleType;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.FieldDefaults;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 
+/**
+ * DeliveryPartner entity representing delivery partners with vehicle and performance information.
+ */
 @Entity
 @Table(name = "delivery_partners")
-@Data
+@Getter
+@Setter
+@ToString
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class DeliveryPartner extends BaseAuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "delivery_partner_id", length = 64)
-    private String deliveryPartnerId;
+    String deliveryPartnerId;
 
-    @Column(name = "partner_name", nullable = false, length = 100)
-    private String partnerName;
+    @Column(name = "partner_name", nullable = false, columnDefinition = "varchar(255)")
+    String partnerName;
 
-    @Column(name = "email", unique = true, nullable = false, length = 255)
-    private String email;
+    @Column(name = "email", unique = true, nullable = false, columnDefinition = "varchar(255)")
+    String email;
 
-    @Column(name = "phone_number", nullable = false, length = 20)
-    private String phoneNumber;
+    @Column(name = "phone_number", nullable = false, columnDefinition = "varchar(255)")
+    String phoneNumber;
 
-    @Column(name = "password_hash", nullable = false, length = 255)
-    private String passwordHash;
+    @Column(name = "password_hash", nullable = false, columnDefinition = "varchar(255)")
+    String passwordHash;
 
-    @Column(name = "assigned_warehouse_id")
-    private String assignedWarehouseId;
+    @Column(name = "assigned_warehouse_id", columnDefinition = "varchar(255)")
+    String assignedWarehouseId;
 
-    @Column(name = "assigned_zone_id")
-    private String assignedZoneId;
+    @Column(name = "assigned_zone_id", columnDefinition = "varchar(255)")
+    String assignedZoneId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "vehicle_type")
-    private VehicleType vehicleType;
+    VehicleType vehicleType;
 
-    @Column(name = "vehicle_number", length = 20)
-    private String vehicleNumber;
+    @Column(name = "vehicle_number", columnDefinition = "varchar(255)")
+    String vehicleNumber;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "employment_status")
-    private EmploymentStatus employmentStatus;
+    EmploymentStatus employmentStatus;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "current_status")
-    private DeliveryPartnerCurrentStatus currentStatus;
+    DeliveryPartnerCurrentStatus currentStatus;
 
     @Column(name = "total_deliveries")
-    private Integer totalDeliveries;
+    Integer totalDeliveries;
 
     @Column(name = "successful_deliveries")
-    private Integer successfulDeliveries;
+    Integer successfulDeliveries;
 
-    @Column(name = "average_rating")
-    private BigDecimal averageRating;
+    @Column(name = "average_rating", columnDefinition = "decimal(20,4)")
+    BigDecimal averageRating;
 }

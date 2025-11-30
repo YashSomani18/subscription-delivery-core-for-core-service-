@@ -11,9 +11,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface DiscountTypeRepository extends JpaRepository<DiscountType, UUID> {
+public interface DiscountTypeRepository extends JpaRepository<DiscountType, String> {
 
     List<DiscountType> findByStatus(DiscountStatus status);
+
     List<DiscountType> findByDiscountType(DiscountCategory discountType);
+
     Optional<DiscountType> findByDiscountName(String discountName);
 }

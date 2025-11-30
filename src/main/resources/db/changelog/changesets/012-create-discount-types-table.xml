@@ -13,7 +13,7 @@
         </preConditions>
         
         <createTable tableName="discount_types">
-            <column name="id" type="uuid" defaultValueComputed="gen_random_uuid()">
+            <column name="id" type="varchar(64)" defaultValueComputed="gen_random_uuid()">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="discount_type" type="varchar(20)">
@@ -34,7 +34,7 @@
             <column name="valid_until" type="timestamp with time zone">
                 <constraints nullable="true"/>
             </column>
-            <column name="status" type="varchar(20)" defaultValue="ACTIVE">
+            <column name="status" type="varchar(20)">
                 <constraints nullable="false"/>
             </column>
             <column name="created_on" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">

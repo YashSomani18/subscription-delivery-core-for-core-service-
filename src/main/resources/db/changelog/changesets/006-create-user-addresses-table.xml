@@ -14,10 +14,10 @@
         </preConditions>
         
         <createTable tableName="user_addresses">
-            <column name="user_address_id" type="uuid" defaultValueComputed="gen_random_uuid()">
+            <column name="user_address_id" type="varchar(64)" defaultValueComputed="gen_random_uuid()">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="user_id" type="uuid">
+            <column name="user_id" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
             <column name="address_line1" type="varchar(255)">
@@ -47,13 +47,13 @@
             <column name="microdata" type="text">
                 <constraints nullable="true"/>
             </column>
-            <column name="zone_id" type="uuid">
+            <column name="zone_id" type="varchar(64)">
                 <constraints nullable="true"/>
             </column>
-            <column name="status" type="varchar(20)" defaultValue="ACTIVE">
+            <column name="status" type="varchar(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="no_of_orders_placed" type="integer" defaultValue="0">
+            <column name="no_of_orders_placed" type="integer">
                 <constraints nullable="false"/>
             </column>
             <column name="created_on" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
@@ -70,20 +70,7 @@
             </column>
         </createTable>
         
-        <addForeignKeyConstraint
-                baseTableName="user_addresses"
-                baseColumnNames="user_id"
-                constraintName="fk_user_addresses_user_id"
-                referencedTableName="users"
-                referencedColumnNames="id"/>
-        
-        <addForeignKeyConstraint
-                baseTableName="user_addresses"
-                baseColumnNames="zone_id"
-                constraintName="fk_user_addresses_zone_id"
-                referencedTableName="zones"
-                referencedColumnNames="zone_id"/>        <rollback>            <dropForeignKeyConstraint baseTableName="user_addresses" constraintName="fk_user_addresses_zone_id"/>
-            <dropForeignKeyConstraint baseTableName="user_addresses" constraintName="fk_user_addresses_user_id"/>
+        <rollback>
             <dropTable tableName="user_addresses"/>
         </rollback>
     </changeSet>

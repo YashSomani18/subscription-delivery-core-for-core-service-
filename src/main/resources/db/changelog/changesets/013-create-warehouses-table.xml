@@ -10,15 +10,17 @@
             <not>
                 <tableExists tableName="warehouses"/>
             </not>
-            <tableExists tableName="zones"/>
         </preConditions>
         
         <createTable tableName="warehouses">
-            <column name="warehouse_id" type="uuid" defaultValueComputed="gen_random_uuid()">
+            <column name="warehouse_id" type="varchar(64)" defaultValueComputed="gen_random_uuid()">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="warehouse_name" type="varchar(255)">
                 <constraints nullable="false"/>
+            </column>
+            <column name="warehouse_code" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
             </column>
             <column name="address" type="varchar(500)">
                 <constraints nullable="false"/>
@@ -38,10 +40,7 @@
             <column name="longitude" type="decimal(11,8)">
                 <constraints nullable="false"/>
             </column>
-            <column name="zone_id" type="uuid">
-                <constraints nullable="false"/>
-            </column>
-            <column name="status" type="varchar(20)" defaultValue="ACTIVE">
+            <column name="status" type="varchar(20)">
                 <constraints nullable="false"/>
             </column>
             <column name="created_on" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
@@ -58,12 +57,7 @@
             </column>
         </createTable>
         
-        <addForeignKeyConstraint
-                baseTableName="warehouses"
-                baseColumnNames="zone_id"
-                constraintName="fk_warehouses_zone_id"
-                referencedTableName="zones"
-                referencedColumnNames="zone_id"/>        <rollback>            <dropForeignKeyConstraint baseTableName="warehouses" constraintName="fk_warehouses_zone_id"/>
+        <rollback>
             <dropTable tableName="warehouses"/>
         </rollback>
     </changeSet>

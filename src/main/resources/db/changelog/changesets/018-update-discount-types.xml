@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd">
+
+    <changeSet id="018-update-discount-types-table" author="yashsomani">
+        <addColumn tableName="discount_types">
+            <column name="value" type="DECIMAL(10, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="min_order_value" type="DECIMAL(10, 2)"/>
+        </addColumn>
+        
+        <dropColumn tableName="discount_types" columnName="rule_format"/>
+    </changeSet>
+
+    <changeSet id="018-add-discount-to-products" author="yashsomani">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fk_products_discount_type"/>
+            </not>
+        </preConditions>
+        
+        <addForeignKeyConstraint baseTableName="products"
+                                 baseColumnNames="discount_type_id"
+                                 constraintName="fk_products_discount_type"
+                                 referencedTableName="discount_types"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>

@@ -7,13 +7,13 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
 @Repository
-public interface SlotRepository extends JpaRepository<Slot, UUID> {
+public interface SlotRepository extends JpaRepository<Slot, String> {
 
-    List<Slot> findByZoneId(UUID zoneId);
+    Optional<Slot> findByZoneIdAndSlotDateAndStartTimeAndEndTime(String zoneId, LocalDate slotDate, java.time.LocalTime startTime, java.time.LocalTime endTime);
+    List<Slot> findByZoneId(String zoneId);
     List<Slot> findBySlotDate(LocalDate slotDate);
     List<Slot> findByStatus(SlotStatus status);
-    List<Slot> findByZoneIdAndSlotDate(UUID zoneId, LocalDate slotDate);
 }
