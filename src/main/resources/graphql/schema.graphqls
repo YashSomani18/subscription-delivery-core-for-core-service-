@@ -1,0 +1,200 @@
+type Query {
+    # ═══════════════════════════════════════════════════════
+    # PRODUCT QUERIES (New! Learning GraphQL)
+    # ═══════════════════════════════════════════════════════
+    
+    """
+    Fetch a single product by ID.
+    Example: { product(id: "prod-123") { name price } }
+    """
+    product(id: ID!): Product
+    
+    """
+    Fetch all products.
+    Example: { products { name price category { name } } }
+    """
+    products: [Product]
+    
+    # ═══════════════════════════════════════════════════════
+    # SUBSCRIPTION QUERIES (Existing)
+    # ═══════════════════════════════════════════════════════
+    
+    subscriptions: [Subscription]
+    subscription(id: ID!): Subscription
+    subscriptionsByUserId(userId: ID!): [Subscription]
+    
+    # User queries
+    users: [User]
+    user(id: ID!): User
+}
+
+type Mutation {
+    # Subscription mutations
+    createSubscription(input: CreateSubscriptionInput!): Subscription
+    updateSubscription(id: ID!, input: UpdateSubscriptionInput!): Subscription
+    cancelSubscription(id: ID!): Boolean
+    
+    # User mutations
+    createUser(input: CreateUserInput!): User
+    updateUser(id: ID!, input: UpdateUserInput!): User
+}
+
+type Subscription {
+    id: ID!
+    userId: ID!
+    planId: ID!
+    status: SubscriptionStatus!
+    startDate: String!
+    endDate: String
+    createdAt: String!
+    updatedAt: String!
+    user: User
+    plan: Plan
+}
+
+type User {
+    id: ID!
+    email: String!
+    firstName: String!
+    lastName: String!
+    createdAt: String!
+    updatedAt: String!
+    subscriptions: [Subscription]
+}
+
+type Plan {
+    id: ID!
+    name: String!
+    description: String
+    price: Float!
+    duration: Int!
+    features: [String]
+}
+
+enum SubscriptionStatus {
+    ACTIVE
+    CANCELLED
+    EXPIRED
+    SUSPENDED
+}
+
+input CreateSubscriptionInput {
+    userId: ID!
+    planId: ID!
+    startDate: String
+}
+
+input UpdateSubscriptionInput {
+    status: SubscriptionStatus
+    endDate: String
+}
+
+input CreateUserInput {
+    email: String!
+    firstName: String!
+    lastName: String!
+}
+
+input UpdateUserInput {
+    email: String
+    firstName: String
+    lastName: String
+}
+
+# ═══════════════════════════════════════════════════════
+# 🎓 PRODUCT TYPES (Learning GraphQL!)
+# ═══════════════════════════════════════════════════════
+
+"""
+Product entity - represents items in your catalog.
+
+🎯 KEY CONCEPT: Clients can request ANY combination of fields!
+  
+  Small request (homepage):
+  { name price }
+  
+  Full request (product page):
+  { name price brand description category { name } discount { value } }
+  
+GraphQL only fetches what you ask for!
+"""
+type Product {
+    """Unique product identifier"""
+    productId: ID!
+    
+    """Product name (e.g., 'Fresh Milk')"""
+    name: String!
+    
+    """Product price in INR"""
+    price: Float!
+    
+    """Brand name (e.g., 'Amul')"""
+    brand: String
+    
+    """Product description"""
+    description: String
+    
+    """Main product image URL"""
+    imageUrl: String
+    
+    """SKU code for inventory"""
+    sku: String!
+    
+    """Product unit (e.g., '1L', '500g')"""
+    unit: String
+    
+    """Product status (ACTIVE, INACTIVE, etc.)"""
+    status: String!
+    
+    """
+    🔗 NESTED FIELD: Category
+    This is resolved SEPARATELY only if requested!
+    This is where GraphQL optimization happens.
+    """
+    category: Category
+    
+    """
+    🔗 NESTED FIELD: Discount
+    Only fetched if client requests it.
+    """
+    discount: DiscountType
+}
+
+"""
+Category entity - product categories like Dairy, Vegetables.
+
+📝 NOTE: This is a NESTED type.
+It's only loaded when Product.category is requested!
+"""
+type Category {
+    """Unique category identifier"""
+    categoryId: ID!
+    
+    """Category name (e.g., 'Dairy')"""
+    name: String!
+    
+    """Category image URL"""
+    imageUrl: String
+    
+    """GST slab for this category"""
+    gstSlab: String
+}
+
+"""
+DiscountType entity - sales and promotions.
+
+Example: 'Diwali Sale', 'Black Friday'.
+"""
+type DiscountType {
+    """Unique discount identifier"""
+    id: ID!
+    
+    """Discount name (e.g., 'Diwali Dhamaka')"""
+    discountName: String!
+    
+    """Discount value (percentage or flat amount)"""
+    value: Float
+    
+    """When does this discount end?"""
+    validUntil: String
+}

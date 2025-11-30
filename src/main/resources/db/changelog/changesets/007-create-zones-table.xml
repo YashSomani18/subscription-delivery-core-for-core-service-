@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="007-create-zones-table" author="developer">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="zones"/>
+            </not>
+        </preConditions>
+        
+        <createTable tableName="zones">
+            <column name="zone_id" type="varchar(64)" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="district" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="no_of_customers" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="no_of_deliveries" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_name" type="varchar(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="direction" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_on" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="modified_on" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="true"/>
+            </column>
+            <column name="modified_by" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <rollback>
+            <dropTable tableName="zones"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="007-update-zones-table" author="yashsomani">
+        <comment>Remove analytics fields and add zone_code to zones table</comment>
+
+        <!-- Drop analytics columns -->
+        <dropColumn tableName="zones" columnName="no_of_customers"/>
+        <dropColumn tableName="zones" columnName="no_of_deliveries"/>
+
+        <!-- Add zone_code column -->
+        <addColumn tableName="zones">
+            <column name="zone_code" type="varchar(50)">
+                <constraints unique="true" nullable="true"/>
+            </column>
+        </addColumn>
+
+        <rollback>
+            <!-- Rollback: remove zone_code and restore analytics columns -->
+            <dropColumn tableName="zones" columnName="zone_code"/>
+            <addColumn tableName="zones">
+                <column name="no_of_customers" type="integer">
+                    <constraints nullable="false"/>
+                </column>
+            </addColumn>
+            <addColumn tableName="zones">
+                <column name="no_of_deliveries" type="integer">
+                    <constraints nullable="false"/>
+                </column>
+            </addColumn>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

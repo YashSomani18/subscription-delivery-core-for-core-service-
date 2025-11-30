@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="019-create-warehouse-zones-table" author="developer">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="warehouse_zones"/>
+            </not>
+        </preConditions>
+        
+        <createTable tableName="warehouse_zones">
+            <column name="warehouse_zone_id" type="varchar(64)" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="warehouse_id" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zone_id" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_primary" type="TINYINT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_on" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="modified_on" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="true"/>
+            </column>
+            <column name="modified_by" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <addUniqueConstraint tableName="warehouse_zones" 
+                             columnNames="warehouse_id, zone_id" 
+                             constraintName="uk_warehouse_zone"/>
+        
+        <rollback>
+            <dropTable tableName="warehouse_zones"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
+

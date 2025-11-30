@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd">
+
+    <changeSet id="017-create-categories-table" author="yashsomani">
+        <createTable tableName="categories">
+            <column name="category_id" type="VARCHAR(64)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="TEXT"/>
+            <column name="image_url" type="VARCHAR(512)"/>
+            <column name="gst_slab" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="display_order" type="INT"/>
+            <column name="is_active" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            
+            <!-- Audit fields -->
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="created_by" type="VARCHAR(64)"/>
+            <column name="updated_by" type="VARCHAR(64)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="017-update-products-table" author="yashsomani">
+        <addColumn tableName="products">
+            <column name="category_id" type="VARCHAR(64)"/>
+            <column name="brand" type="VARCHAR(255)"/>
+            <column name="unit" type="VARCHAR(50)"/>
+            <column name="images" type="TEXT"/>
+            <column name="tags" type="TEXT"/>
+            <column name="discount_type_id" type="VARCHAR(64)"/>
+            <column name="is_subscription_eligible" type="BOOLEAN" defaultValueBoolean="true"/>
+            <column name="is_perishable" type="BOOLEAN"/>
+        </addColumn>
+
+        <addForeignKeyConstraint baseTableName="products"
+                                 baseColumnNames="category_id"
+                                 constraintName="fk_products_category"
+                                 referencedTableName="categories"
+                                 referencedColumnNames="category_id"/>
+    </changeSet>
+
+</databaseChangeLog>
